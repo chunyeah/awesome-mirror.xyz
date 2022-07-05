@@ -1,0 +1,50 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "AwesomeMirrors",
+    "type": "object",
+    "properties": {
+        "mirrors": {
+            "type": "array",
+            "description": "Awesome mirrors",
+            "items": {
+                "type": "object",
+                "title": "Mirror",
+                "properties": {
+                  "name": {
+                    "type":"string",
+                    "description": "the mirror name"
+                },
+                "website": {
+                    "type": "string",
+                    "description": "URI of mirror blog website"
+                },
+                "rss": {
+                    "type": "string",
+                    "description": "rss of mirror blog website"
+                },
+                "language": {
+                    "type": "string",
+                    "description": "language about mirror"
+                },
+                "tags": {
+                    "type": "array",
+                    "description": "Tags of the mirror",
+                    "items": {
+                        "type": "string",
+                        "description": "Tag name"
+                    }
+                },
+                "like": {
+                    "type": "array",
+                    "description": "ppl's dids who like the mirror",
+                    "items": {
+                        "type": "string",
+                        "description": "did"
+                    },
+                    "default": []
+                }
+            }
+        }
+    }
+}}
+  

@@ -1,0 +1,37 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "SubmitMirrors",
+    "type": "object",
+    "properties": {
+        "mirrors": {
+            "type": "array",
+            "description": "User submit mirrors",
+            "items": {
+                "type": "object",
+                "title": "Mirror",
+                "properties": {
+                  "name": {
+                    "type":"string",
+                    "description": "the mirror name"
+                },
+                "website": {
+                    "type": "string",
+                    "description": "URI of mirror blog website"
+                },
+                "language": {
+                    "type": "string",
+                    "description": "language about mirror"
+                },
+                "tags": {
+                    "type": "array",
+                    "description": "Tags of the mirror",
+                    "items": {
+                        "type": "string",
+                        "description": "Tag name"
+                    }
+                }
+            }
+        }
+    }
+}}
+  
