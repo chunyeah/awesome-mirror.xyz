@@ -63,8 +63,12 @@ export default function Home() {
           <nav>
            {
             state.connected && (
-            <Stack direction="row" spacing={2}>
-              <LanguageSelect languages={languages} updateLanguage={updateLanguage} />
+            <Stack direction="row" spacing={2}> 
+            {
+              languages.length > 0 && (
+                <LanguageSelect languages={languages} updateLanguage={updateLanguage} />
+              )
+            }
               <Chip label="Awesome Mirror" variant={ dataSource == DataSource.AwesomeMirror ? 'filled' : 'outlined' } color="success" onClick={() => handleClick(DataSource.AwesomeMirror)}/>
               <Chip label="My Mirror" variant={ dataSource == DataSource.MyMirror ? 'filled' : 'outlined' }  color="success" onClick={() => handleClick(DataSource.MyMirror)}/>
               <ConnectServices />
