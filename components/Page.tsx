@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import Pagination from '@mui/material/Pagination'
 import Box from '@mui/material/Box'
 import { MAX_PAGE_COUNT } from '../lib/constants'
