@@ -1,0 +1,16 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "MyArticles",
+    "type": "object",
+    "properties": {
+        "myArticels": {
+            "type": "array",
+            "description": "My Articles",
+            "items": {
+                "type": "string",
+                "title": "article stream id"
+            }
+        }
+    }
+}
+  
