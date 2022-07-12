@@ -1,34 +1,58 @@
 import * as React from 'react'
-import AppBar from '@mui/material/AppBar'
 import CssBaseline from '@mui/material/CssBaseline'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import GlobalStyles from '@mui/material/GlobalStyles'
 import { useMirrors, DataSource } from '../lib/mirror'
-import { useAuth } from '../lib/auth'
 import { MirrorCard } from '../components/MirrorCard'
 import { MirrorFilter } from '../components/MirrorFilter'
 import { Page } from '../components/Page'
 import { Footer } from '../components/Footer'
+import Script from 'next/script'
+import { useAuth } from '../lib/auth'
 import { ConnectServices } from '../components/ConnectServices'
 import { LanguageSelect } from '../components/LanguageSelect'
-import Script from 'next/script'
-import Chip from '@mui/material/Chip'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
 
 const theme = createTheme();
 
 export default function Home() {
-  const { awesomeMirrors, filterMirrors, languages, tags, filterAwesomeMirrors, filterMirrorsWithPage, updatePage, page, updateDataSource, dataSource, updateLanguage } = useMirrors()
-  const {state} = useAuth()
+  const { awesomeMirrors, filterMirrors, tags, filterAwesomeMirrors, filterMirrorsWithPage, updatePage, page, updateDataSource, dataSource, languages, updateLanguage } = useMirrors()
+  const { state } = useAuth()
+  const pages = state.connected ? ['Awesome Today', 'Awesome Mirrors', 'My Favorites'] : ['Awesome Today', 'Awesome Mirrors']
 
-  async function handleClick(value: DataSource) {
+
+  async function handleClickWithDataSource(value: DataSource) {
     updateDataSource(value)
+  }
+
+  async function handleClick(key: string) {
+    console.log('handleClick: ', key)
+    if (key == 'Awesome Mirrors') {
+      updateDataSource(DataSource.AwesomeMirror)
+    } else if (key == 'My Favorites') {
+      updateDataSource(DataSource.MyMirror)
+    } else if (key == 'Awesome Today') {
+      updateDataSource(DataSource.AwesomeToday)
+    }
+  }
+
+  function getPageButtonIsSelected(key: string) {
+    console.log('key: ', key, 'datasource: ', dataSource)
+    if (key == 'Awesome Mirrors' && dataSource == DataSource.AwesomeMirror) {
+      return true
+    } else if (key == 'My Favorites' && dataSource == DataSource.MyMirror) {
+      return true
+    } else if (key == 'Awesome Today' && dataSource == DataSource.AwesomeToday) {
+      return true
+    }
+    return false
   }
 
   return (
@@ -50,37 +74,56 @@ export default function Home() {
       </div>
       <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
       <CssBaseline />
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
-      >
-      <Toolbar sx={{ flexWrap: 'wrap' }}>
-      <Typography variant="h5" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.0rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
             Awesome Mirror
           </Typography>
-          <nav>
-           {
-            state.connected && (
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={()=>handleClick(page)}
+                sx={getPageButtonIsSelected(page) ? { my: 2, color: '#b0bec5', display: 'block' } : { my: 2, color: 'white', display: 'block' }}
+              >
+                {page}
+              </Button>
+            ))}
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+          { state.connected && (
             <Stack direction="row" spacing={2}>
-              <LanguageSelect languages={languages} updateLanguage={updateLanguage} />
-              <Chip label="Awesome Mirror" variant={ dataSource == DataSource.AwesomeMirror ? 'filled' : 'outlined' } color="success" onClick={() => handleClick(DataSource.AwesomeMirror)}/>
-              <Chip label="My Mirror" variant={ dataSource == DataSource.MyMirror ? 'filled' : 'outlined' }  color="success" onClick={() => handleClick(DataSource.MyMirror)}/>
-              <ConnectServices />
-            </Stack>
-            )
-           }
-           {
+               <ConnectServices />
+             </Stack>
+          )}
+          {
             languages.length > 0 && !state.connected && (
               <Stack direction="row" spacing={2}>
                   <LanguageSelect languages={languages} updateLanguage={updateLanguage}/>
                   <ConnectServices />
               </Stack>
             )
-           }
-          </nav>
-      </Toolbar>
+          }
+          </Box>
+        </Toolbar>
+      </Container>
       </AppBar>
       <main>
         {
@@ -111,7 +154,7 @@ export default function Home() {
                     spacing={2}
                     justifyContent="center"
                   >
-                    <Button variant="outlined" onClick={() => handleClick(DataSource.AwesomeMirror)}>Find Awesome Mirror</Button>
+                    <Button variant="outlined" onClick={() => handleClickWithDataSource(DataSource.AwesomeMirror)}>Find Awesome Mirror</Button>
                   </Stack>
                 </Container>
               </Box>

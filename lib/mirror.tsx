@@ -6,7 +6,8 @@ import testnetModels from "../schemas/published/models_local_testnet.json"
 import { MAX_PAGE_COUNT } from './constants'
 
 export enum DataSource {
-    AwesomeMirror = 0,
+    AwesomeToday = 0,
+    AwesomeMirror,
     MyMirror
 }
 
@@ -52,7 +53,7 @@ export function useMirrors() {
             if (source == DataSource.AwesomeMirror) {
                 updateTagAndLanguage(awesomeMirrors)
                 filterAwesomeMirrors(selected)
-            } else {
+            } else if (source == DataSource.MyMirror) {
                 if (state.did) {
                     setLanguages([])
                     setTags([])
@@ -70,6 +71,7 @@ export function useMirrors() {
     }
 
     const updateLanguage = async (selectedLanguage: string) => {
+        console.log('updateLanguage')
         setTags(allTags[selectedLanguage])
         _filter(selectedLanguage, awesomeMirrors)
     }

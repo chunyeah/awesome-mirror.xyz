@@ -33,7 +33,7 @@ export const LanguageSelect: FC<React.PropsWithChildren<PropType>> = (props: Pro
 
     return (
         <React.Fragment>
-            <Button variant="outlined" color="success" startIcon={<LanguageIcon />} onClick={handleClickOpen}>
+            <Button variant="outlined" color="inherit" startIcon={<LanguageIcon />} onClick={handleClickOpen}>
                 {getDefaultLanguage()}
             </Button>
             <Dialog maxWidth="xs" open={open} onClose={handleClose}>

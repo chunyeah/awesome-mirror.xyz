@@ -23,6 +23,7 @@ export const ConnectServices: FC<React.PropsWithChildren<unknown>> = () => {
     <>
     {!state.connected && !connecting && (
       <Button
+        color="inherit"
         id="button"
         onClick={connect}
         variant="outlined"
@@ -31,12 +32,12 @@ export const ConnectServices: FC<React.PropsWithChildren<unknown>> = () => {
       </Button>
     )}
     {connecting && (
-        <LoadingButton loading loadingIndicator="Connecting..." variant="outlined">
+        <LoadingButton color="inherit" loading loadingIndicator="Connecting..." variant="outlined">
          Connecting
        </LoadingButton>
     )}
     { state.connected && !connecting && (
-        <Button onClick= {disconnect} >Disconnect {formatAddress(state.address)}</Button>
+        <Button color="inherit" onClick= {disconnect} >Disconnect {formatAddress(state.address)}</Button>
     )}
   </>
   )
